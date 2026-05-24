@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROVISIONAL LEGACY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --fg: #ffffff;
+            --muted: #888888;
+            --border: #333333;
+            --accent: #ff0000;
+            --accent-dim: #cc0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--fg);
+        }
+
+        /* Typography */
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        @media (min-width: 768px) {
+            .container { padding: 0 48px; }
+        }
+
+        @media (min-width: 1024px) {
+            .container { padding: 0 80px; }
+        }
+
+        /* Grid System */
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        /* Borders */
+        .border-t { border-top: 1px solid var(--border); }
+        .border-b { border-bottom: 1px solid var(--border); }
+        .border-l { border-left: 1px solid var(--border); }
+        .border-r { border-right: 1px solid var(--border); }
+        .border-full { border: 1px solid var(--border); }
+
+        /* Utilities */
+        .text-muted { color: var(--muted); }
+        .text-accent { color: var(--accent); }
+        .bg-accent { background: var(--accent); }
+        .uppercase { text-transform: uppercase; }
+        .tracking-tight { letter-spacing: -0.02em; }
+        .tracking-wide { letter-spacing: 0.05em; }
+        .leading-none { line-height: 1; }
+        .leading-tight { line-height: 1.1; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-fade-up {
+            opacity: 0;
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.03em;
+            text-decoration: none;
+            color: var(--fg);
+        }
+
+        .nav-logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 40px;
+            }
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            color: var(--muted);
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--fg);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            align-items: end;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 80px;
+            }
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(48px, 10vw, 140px);
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
+
+        .hero-title .line-1 {
+            display: block;
+            color: var(--fg);
+        }
+
+        .hero-title .line-2 {
+            display: block;
+            color: var(--accent);
+        }
+
+        .hero-meta {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .hero-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .hero-meta-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .meta-item {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .meta-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .meta-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--fg);
+        }
+
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--muted);
+            max-width: 480px;
+        }
+
+        .hero-desc strong {
+            color: var(--fg);
+            font-weight: 600;
+        }
+
+        .hero-cta {
+            margin-top: 40px;
+        }
+
+        .hero-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            color: var(--fg);
+            border: 1px solid var(--border);
+            padding: 16px 32px;
+            transition: all 0.3s;
+        }
+
+        .hero-cta a:hover {
+            background: var(--fg);
+            color: var(--bg);
+            border-color: var(--fg);
+        }
+
+        /* Marquee */
+        .marquee-section {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .marquee-track {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            padding: 0 40px;
+            flex-shrink: 0;
+        }
+
+        .marquee-item span {
+            color: var(--accent);
+            margin-right: 40px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            padding: 80px 0 48px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        @media (min-width: 768px) {
+            .section-header {
+                grid-template-columns: 1fr auto;
+                align-items: end;
+            }
+        }
+
+        .section-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+        }
+
+        .section-desc {
+            font-size: 15px;
+            color: var(--muted);
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .project-card {
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            padding: 48px 32px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: background 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:nth-child(even) {
+            border-right: none;
+        }
+
+        @media (min-width: 768px) {
+            .project-card:nth-child(even) {
+                border-right: 1px solid var(--border);
+            }
+            .project-card:nth-child(2n) {
+                border-right: none;
+            }
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 0;
+        }
+
+        .project-card:hover::before {
+            transform: translateY(0);
+        }
+
+        .project-card:hover {
+            color: var(--bg);
+        }
+
+        .project-card:hover .project-num,
+        .project-card:hover .project-title,
+        .project-card:hover .project-desc,
+        .project-card:hover .project-tags,
+        .project-card:hover .project-arrow {
+            color: var(--bg);
+            border-color: var(--bg);
+        }
+
+        .project-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            transition: color 0.3s;
+        }
+
+        .project-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            transition: color 0.3s;
+        }
+
+        .project-desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin-bottom: 32px;
+            max-width: 400px;
+            transition: color 0.3s;
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            transition: color 0.3s;
+        }
+
+        .project-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+
+        .project-arrow {
+            font-size: 20px;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .project-card:hover .project-arrow {
+            transform: translate(4px, -4px);
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            padding: 80px 0;
+        }
+
+        @media (min-width: 1024px) {
+            .about-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 120px;
+            }
+        }
+
+        .about-left {
+            position: relative;
+        }
+
+        .about-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .about-text {
+            font-size: clamp(20px, 3vw, 32px);
+            line-height: 1.4;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .about-text strong {
+            color: var(--fg);
+            font-weight: 600;
+        }
+
+        .about-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+        }
+
+        .about-stat {
+            padding: 32px;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+        }
+
+        .about-stat-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+        }
+
+        .about-stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 48px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+            }
+        }
+
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        .footer-brand span {
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--fg);
+        }
+
+        /* Mobile menu */
+        .mobile-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--fg);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-toggle { display: none; }
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg);
+            z-index: 99;
+            padding: 48px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .mobile-menu a {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--fg);
+            letter-spacing: -0.02em;
+        }
+
+        /* Horizontal rule decorative */
+        .hr-accent {
+            height: 2px;
+            background: var(--accent);
+            width: 60px;
+            margin: 32px 0;
+        }
+
+        /* Large background text */
+        .bg-text {
+            position: absolute;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(100px, 20vw, 300px);
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--border);
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-inner">
+                <a href="#" class="nav-logo">PL<span>.</span></a>
+                <div class="nav-links">
+                    <a href="#projects">Projects</a>
+                    <a href="#about">About</a>
+                    <a href="mailto:hello@example.com">Contact</a>
+                </div>
+                <div class="nav-status">
+                    <span class="status-dot"></span>
+                    <span>4 apps live</span>
+                </div>
+                <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#projects" onclick="toggleMenu()">Projects</a>
+        <a href="#about" onclick="toggleMenu()">About</a>
+        <a href="mailto:hello@example.com" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="hero-name animate-fade-up delay-1" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 24px;">
+                        My Name is Adrian Apriyanda
+                    </div>
+                    <h1 class="hero-title animate-fade-up delay-2">
+                        <span class="line-1">THIS IS MY</span>
+                        <span class="line-2">PROVISIONAL<br>LEGACY</span>
+                    </h1>
+                    <div class="hero-meta animate-fade-up delay-3">
+                        <div class="hero-meta-grid">
+                            <div class="meta-item">
+                                <div class="meta-label">Products</div>
+                                <div class="meta-value">04</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Status</div>
+                                <div class="meta-value">Shipping</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Approach</div>
+                                <div class="meta-value">Public</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Year</div>
+                                <div class="meta-value">2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-right animate-fade-up delay-4">
+                    <p class="hero-desc">
+                        A collection of <strong>four SaaS products</strong> built to solve real problems. 
+                        No stealth mode. No hidden roadmap. Just shipping, learning, and iterating in the open.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#projects">
+                            Explore Work
+                            <span>↓</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <section class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-item"><span>//</span> TALI SOCIETY</div>
+            <div class="marquee-item"><span>//</span> LEGAL BOT</div>
+            <div class="marquee-item"><span>//</span> KLINIK APP</div>
+            <div class="marquee-item"><span>//</span> FUTURE PATH</div>
+            <div class="marquee-item"><span>//</span> TALI SOCIETY</div>
+            <div class="marquee-item"><span>//</span> LEGAL BOT</div>
+            <div class="marquee-item"><span>//</span> KLINIK APP</div>
+            <div class="marquee-item"><span>//</span> FUTURE PATH</div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <div>
+                    <div class="section-num">01 — Selected Work</div>
+                    <h2 class="section-title">Projects</h2>
+                </div>
+                <p class="section-desc">Four live applications. Each solving a distinct problem. Click any project to visit the live deployment.</p>
+            </div>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <a href="https://talisociety.base44.app" target="_blank" class="project-card reveal">
+                <div class="project-num">001</div>
+                <h3 class="project-title">TALI<br>SOCIETY</h3>
+                <p class="project-desc">Community-driven platform connecting members through shared interests, collaboration tools, and meaningful engagement systems.</p>
+                <div class="project-footer">
+                    <div class="project-tags">
+                        <span class="project-tag">Community</span>
+                        <span class="project-tag">Social</span>
+                    </div>
+                    <span class="project-arrow">↗</span>
+                </div>
+            </a>
+
+            <!-- Project 2 -->
+            <a href="https://legal-bot--apriyandaadrian.replit.app/" target="_blank" class="project-card reveal">
+                <div class="project-num">002</div>
+                <h3 class="project-title">LEGAL<br>BOT</h3>
+                <p class="project-desc">AI-powered legal assistant helping users understand contracts, generate documents, and access instant legal guidance around the clock.</p>
+                <div class="project-footer">
+                    <div class="project-tags">
+                        <span class="project-tag">AI</span>
+                        <span class="project-tag">Legal Tech</span>
+                    </div>
+                    <span class="project-arrow">↗</span>
+                </div>
+            </a>
+
+            <!-- Project 3 -->
+            <a href="https://klinikapp.lovable.app/" target="_blank" class="project-card reveal">
+                <div class="project-num">003</div>
+                <h3 class="project-title">KLINIK<br>APP</h3>
+                <p class="project-desc">Healthcare clinic management system streamlining patient records, appointments, and medical workflows for modern practices.</p>
+                <div class="project-footer">
+                    <div class="project-tags">
+                        <span class="project-tag">Healthcare</span>
+                        <span class="project-tag">Management</span>
+                    </div>
+                    <span class="project-arrow">↗</span>
+                </div>
+            </a>
+
+            <!-- Project 4 -->
+            <a href="https://futurepath-indonesia-792.created.app/" target="_blank" class="project-card reveal">
+                <div class="project-num">004</div>
+                <h3 class="project-title">FUTURE<br>PATH</h3>
+                <p class="project-desc">Career guidance and education pathway platform helping Indonesian students navigate their future with data-driven insights.</p>
+                <div class="project-footer">
+                    <div class="project-tags">
+                        <span class="project-tag">Education</span>
+                        <span class="project-tag">Career</span>
+                    </div>
+                    <span class="project-arrow">↗</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <div>
+                    <div class="section-num">02 — Philosophy</div>
+                    <h2 class="section-title">About</h2>
+                </div>
+                <p class="section-desc">Building in public. Shipping with conviction. No stealth mode, no secret sauce.</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-left reveal">
+                    <div class="about-label">Manifesto</div>
+                    <p class="about-text">
+                        Every product here started as a <strong>problem noticed in the wild</strong>. 
+                        From community platforms to AI legal assistants, healthcare tools to career guidance — 
+                        each represents a real need in the market.
+                    </p>
+                    <div class="hr-accent"></div>
+                    <p class="about-text" style="font-size: 18px; color: var(--muted);">
+                        Built with modern stacks. Deployed on cutting-edge platforms. Designed for real humans.
+                    </p>
+                </div>
+                <div class="about-right reveal">
+                    <div class="about-stats">
+                        <div class="about-stat">
+                            <div class="about-stat-num">04</div>
+                            <div class="about-stat-label">Live Products</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="about-stat-num">04</div>
+                            <div class="about-stat-label">Platforms</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="about-stat-num">100%</div>
+                            <div class="about-stat-label">Passion</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="about-stat-num">∞</div>
+                            <div class="about-stat-label">Ambition</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">PROVISIONAL<br><span>LEGACY</span></div>
+                    <div class="footer-copy">© 2026 — All projects live and shipping</div>
+                </div>
+                <div class="footer-links">
+                    <a href="https://talisociety.base44.app" target="_blank">Tali Society ↗</a>
+                    <a href="https://legal-bot--apriyandaadrian.replit.app/" target="_blank">Legal Bot ↗</a>
+                </div>
+                <div class="footer-links">
+                    <a href="https://klinikapp.lovable.app/" target="_blank">Klinik App ↗</a>
+                    <a href="https://futurepath-indonesia-792.created.app/" target="_blank">Future Path ↗</a>
+                </div>
+                <div class="footer-links">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px;">Contact</div>
+                    <a href="mailto:adrianapriyanda@gmail.com">adrianapriyanda@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
